@@ -21,6 +21,7 @@
             </span>
         </nav>
     </header>
+
     <div id="header">
         <table style="width: 100%; margin: 0px; padding: 0px; border-collapse: collapse; border-spacing: 0px;">
             <tbody>
@@ -41,7 +42,50 @@
             </tbody>
         </table>
     </div>
+
     <span class="t-2">Ad Change Form</span>
-    <div></div>
+
+    <br><br>
+
+    <div class="cal/version">
+        <label for="adbegin">Ad Begin Date</label>
+        <input type="date" id="adbegin" name="adbegin">
+
+        <label for="adversion">Ad Version</label>
+        <select name="adversion" id="adversion" required="true" >
+            <option value="none" selected disabled hidden>Select</option>
+            <option value="a">A - All A</option>
+            <option value="b">B - All A & B</option>
+            <option value="c">C - All Groups A, B, C</option>
+            <option value="d">D - Corp Store Only</option>
+            <option value="e">E - GYMa & Corp Stores</option>
+            <option value="h">H - Hispanic Flyer</option>
+            <option value="m">M - Month Long</option>
+            <option value="o">O - Organic Flyer</option>
+            <option value="z">Z - Non-Ad All Groups (no print)</option>
+        </select>
+    </div>
+    
+    <br>
+
+    <div class="changestatus">
+        <div>Change Status</div>
+        <div class="changestatusoptions">
+            <input type="checkbox" name="cancellation" id="cancellation" value="cancellation">
+            <label for="cancellation">Cancellation</label>
+            
+            <input type="checkbox" name="costchange" id="costchange" value="costchange">
+            <label for="costchange">Cost Change</label>
+            
+            <input type="checkbox" name="retailchange" id="retailchange" value="retailchange">
+            <label for="retailchange">Retail Change</label>
+            
+            <input type="checkbox" name="dealamountchange" id="dealamountchange" value="dealamountchange">
+            <label for="dealamountchange">Deal Amount Change</label>
+            
+            <input type="checkbox" name="Additional Items" id="Additional Items" value="Additional Items">
+            <label for="Additional Items">Additional Items</label>
+        </div>
+    </div>
 </body>
 </html>
