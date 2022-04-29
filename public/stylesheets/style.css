@@ -12,6 +12,7 @@ a {
 .list {
     width: 98%;
     border: 2px black solid;
+    padding: 3px;
 }
 
 textarea {
