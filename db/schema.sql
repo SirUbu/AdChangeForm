@@ -1,0 +1,5 @@
+-- DROP DATABASE
+DROP DATABASE IF EXISTS ad_change_form_db;
+
+-- CREATE DATABASE
+CREATE DATABASE ad_change_form_db;
