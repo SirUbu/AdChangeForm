@@ -3,7 +3,7 @@ const router = require('express').Router();
 
 // get render
 router.get('/', (req, res) => {
-    res.render('homepage')
+    res.render('landing-page')
 });
 
 // export router
