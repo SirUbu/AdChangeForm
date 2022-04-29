@@ -38,7 +38,7 @@ const hbs = exphbs.create({ helpers });
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-//initialize and sync the server
+// initialize and sync the server
 sequelize.sync({ force: false }).then(() => {
     app.listen(PORT, () => console.log(`App now listening on port ${PORT}`));
 });
