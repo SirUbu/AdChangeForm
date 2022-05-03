@@ -23,14 +23,6 @@ Items.init (
             type: DataTypes.STRING,
             allowNull: false,
         },
-        cost: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        sell: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
         broker_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
