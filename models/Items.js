@@ -25,10 +25,7 @@ Items.init (
         },
         buyerlink_id: {
             type: DataTypes.INTEGER,
-            references: {
-                model: 'buyerlinks',
-                key: 'id'
-            },
+            allowNull: true,
         },
 
     },
