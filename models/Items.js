@@ -23,14 +23,6 @@ Items.init (
             type: DataTypes.STRING,
             allowNull: false,
         },
-        broker_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'brokers',
-                key: 'id'
-            },
-        },
         buyerlink_id: {
             type: DataTypes.INTEGER,
             references: {
