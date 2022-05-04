@@ -27,19 +27,19 @@
     <div class="changestatus">
         <div>Change Status</div>
         <div class="changestatusoptions">
-            <input type="checkbox" name="cancellation" id="cancellation" value="cancellation">
+            <input type="radio" name="change_status" id="cancellation" value="cancellation">
             <label for="cancellation">Cancellation</label>
             
-            <input type="checkbox" name="costchange" id="costchange" value="costchange">
+            <input type="radio" name="change_status" id="costchange" value="costchange">
             <label for="costchange">Cost Change</label>
             
-            <input type="checkbox" name="retailchange" id="retailchange" value="retailchange">
+            <input type="radio" name="change_status" id="retailchange" value="retailchange">
             <label for="retailchange">Retail Change</label>
             
-            <input type="checkbox" name="dealamountchange" id="dealamountchange" value="dealamountchange">
+            <input type="radio" name="change_status" id="dealamountchange" value="dealamountchange">
             <label for="dealamountchange">Deal Amount Change</label>
             
-            <input type="checkbox" name="additionalitems" id="additionalitems" value="additionalitems">
+            <input type="radio" name="change_status" id="additionalitems" value="additionalitems">
             <label for="additionalitems">Additional Items</label>
         </div>
     </div>
@@ -52,13 +52,14 @@
             <input type="text" name="itemnumber" id="itemNum" maxlength="7">
             <button id="getItemBtn" type="submit">Get/Add Item(s)</button>
         </form>
+        <span id="itemnotice"></span>
     </div>
     
     <br>
     
     <div class="itemlist">
         <div>Items</div>
-        <div class="list"></div>
+        <div class="list container"></div>
     </div>
     
     <br>
