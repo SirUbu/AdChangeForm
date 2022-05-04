@@ -12,7 +12,7 @@ router.get('/:id', (req, res) => {
         },
     }).then(dbItemData => {
         if (!dbItemData) {
-            res.status(404).json({ message: 'Invalid item number.' });
+            res.status(404).json({ message: `${req.params.id} is and invalid item number.` });
             return;
         }
         res.json(dbItemData);
@@ -23,10 +23,10 @@ router.get('/:id', (req, res) => {
 });
 
 // route to get items with same buyer ID
-router.get('/buyerlink', (req, res) => {
+router.get('/buyerlink/:id', (req, res) => {
     Items.findAll({
         where: {
-            buyerlink_id: req.params.buyerlink
+            buyerlink_id: req.params.id
         },
     }).then(dbItemData => {
         if(!dbItemData) {
