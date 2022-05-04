@@ -1,5 +1,5 @@
 // require dependencies
-const router = require('express').Routher();
+const router = require('express').Router();
 
 // require models
 const { Items } = require('../../models');
