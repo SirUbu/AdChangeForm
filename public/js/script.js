@@ -1,13 +1,15 @@
 //get dom elements
-let listEl = $(".list");
+let listHeaderEl = $("#listHeader");
+let itemListEl = $("#itemList");
 
 // holder variable for change type
 let changeType = "";
 
-// function to set change type varriable and load form header
+// listener and function to set change type varriable and load form header
 $('.changestatusoptions').click(function(event) {
     // clear list
-    listEl.text("");
+    listHeaderEl.text("");
+    // set changetype based on new selection
     changeType = "";
     let selection = event.target.value;
     if (selection) {
@@ -15,8 +17,8 @@ $('.changestatusoptions').click(function(event) {
     } else {
         return
     };
-    
-    let rowEl = $("<div>").addClass("row");
+    // add header to form
+    let rowEl = $("<div>").addClass("row border-bottom");
     let itemEl = $("<div>").addClass("col-2").text("Item #");
     rowEl.append(itemEl);
     let pkEl = $("<div>").addClass("col-1").text("PK");
@@ -38,12 +40,12 @@ $('.changestatusoptions').click(function(event) {
         typeEl.text("Like Item");
     }
     rowEl.append(typeEl)
-    listEl.append(rowEl);
+    listHeaderEl.append(rowEl);
 });
 
 // function to add item to list
 const addItem = (itemData) => {
-    let listItemEl = $("<div>").addClass("row border-bottom-1").attr("id", itemData.id);
+    let listItemEl = $("<div>").addClass("row border-bottom").attr("id", itemData.id);
     let itemNumberEl = $("<div>").addClass("col-2").text(itemData.id);
     listItemEl.append(itemNumberEl);
     let itemPkEl = $("<div>").addClass("col-1").text(itemData.pack);
@@ -52,13 +54,16 @@ const addItem = (itemData) => {
     listItemEl.append(itemSizeEl);
     let itemDescriptionEl = $("<div>").addClass("col-4").text(itemData.description);
     listItemEl.append(itemDescriptionEl);
-    let itemFormEl = $("<form>").addClass("col-3");
+    let itemFormEl = $("<form>").addClass("col-2");
     let formLabelEl = $("<label>").attr("for", "input");
     itemFormEl.append(formLabelEl);
-    let formInputEl = $("<input>").attr("type", "text").attr("id", "inpute").attr("name", "input");
+    let formInputEl = $("<input>").attr("type", "text").attr("id", "input").attr("name", "input");
     itemFormEl.append(formInputEl);
     listItemEl.append(itemFormEl);
-    listEl.append(listItemEl)
+    // button to removed single item from the form
+    let removeBttnEl = $("<button>").attr("type", "button").attr("id", "removeItemBtn").addClass("col-1").text("❌");
+    listItemEl.append(removeBttnEl);
+    itemListEl.append(listItemEl)
 };
 
 // function to query item search
@@ -112,6 +117,57 @@ $("#getItemBtn").click(function(event) {
     itemNumber.val("");
 });
 
-// clear button to clear out the form ONLY
+// clear button listener and function to clear out the form ONLY
+$("#clearItemList").click(function() {
+    itemListEl.text("");
+});
 
-// reset button to reset the entire page
+// button handler to remove single item from form
+$("#itemList").click(function(event) {
+    if (event.target.id === "removeItemBtn") {
+        // create array with existing list items
+        let itemsArray = [];
+        for (let l = 0; l < itemListEl[0].children.length; l++) {
+            let item = {};
+            item.id = itemListEl[0].children[l].children[0].textContent;
+            item.pack = itemListEl[0].children[l].children[1].textContent;
+            item.size = itemListEl[0].children[l].children[2].textContent;
+            item.description = itemListEl[0].children[l].children[3].textContent;
+            itemsArray.push(item);
+        }
+        // get target item to be removed
+        let targetListItem = event.target.parentElement.children[0].innerText;
+        // loop through array and remove the target item
+        for (let i = 0; i < itemsArray.length; i++) {
+            if (itemsArray[i].id === targetListItem) {
+                itemsArray.splice(i, 1);
+            }
+        }
+        // clear the item list and repopulate with the new array of items
+        itemListEl.text("");
+        itemsArray.forEach(addItem);
+    }
+});
+
+// reset button to reset the entire page (reload page)
+$("#reloadPageBtn").click(function() {
+    location.reload();
+});
+
+// option to manually add an item to the form
+$("#manualItemAdd").click(function(event) {
+    event.preventDefault();
+    let newItem = {};
+    newItem.id = $("#manualItemNum")[0].value;
+    $("#manualItemNum")[0].value = "";
+    newItem.pack = $("#manualItemPk")[0].value;
+    $("#manualItemPk")[0].value = "";
+    newItem.size = $("#manualItemSize")[0].value;
+    $("#manualItemSize")[0].value = "";
+    newItem.description = $("#manualItemDesc")[0].value;
+    $("#manualItemDesc")[0].value = "";
+    addItem(newItem);
+});
+
+// button handler to generate word doc
+

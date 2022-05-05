@@ -59,9 +59,30 @@
     
     <div class="itemlist">
         <div>Items</div>
-        <div class="list container"></div>
+        <div class="list">
+            <div class="container bg-secondary text-light" id="listHeader"></div>
+            <div class="container" id="itemList"></div>
+        </div>
     </div>
-    
+    <br>
+    <div>
+        <div>Add Item Manually</div>
+        <form>
+            <label for="manualItemNum">Item Number</label>
+            <input type="text" name="manualItemNum" id="manualItemNum" maxlength="7">
+            <label for="manualItemPk">PK</label>
+            <input type="text" name="manualItemPk" id="manualItemPk">
+            <label for="manualItemSize">Size</label>
+            <input type="text" name="manualItemSize" id="manualItemSize">
+            <label for="manualItemDesc">Description</label>
+            <input type="text" name="manualItemDesc" id="manualItemDesc">
+            <button type="submit" id="manualItemAdd">Add Item</button>
+        </form>
+    </div>
+    <br>
+    <button id="clearItemList" type="button">Clear All Items</button>
+
+    <br>
     <br>
     
     <div class="comments">
@@ -71,10 +92,14 @@
 
     <br>
 
-    <div class="sendsubmit">
-        <button type="submit">Send Email</button>
-        <button type="submit">Generate Document</button>
-    </div>
+    <button id="genDocBtn" type="button">Generate Document</button>
+
+    <br>
+    <br>
+
+    <button id="reloadPageBtn" type="button">Reset Form</button>
+
+
 </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/js/script.js"></script>

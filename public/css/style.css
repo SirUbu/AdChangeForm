@@ -22,3 +22,24 @@ textarea {
 #input {
     width: 100%;
 }
+
+.container {
+    max-width: 100%;
+}
+
+#itemNum,
+#manualItemNum {
+    width: 80px;
+}
+
+#manualItemPk {
+    width: 40px;
+}
+
+#manualItemSize {
+    width: 55px;
+}
+
+#manualItemDesc {
+    width: 200px;
+}
