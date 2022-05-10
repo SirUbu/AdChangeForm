@@ -45,7 +45,7 @@ $('.changestatusoptions').click(function(event) {
 
 // function to add item to list
 const addItem = (itemData) => {
-    let listItemEl = $("<div>").addClass("row border-bottom").attr("id", itemData.id);
+    let listItemEl = $("<div>").addClass("row border-bottom listedItem").attr("id", itemData.id);
     let itemNumberEl = $("<div>").addClass("col-2").text(itemData.id);
     listItemEl.append(itemNumberEl);
     let itemPkEl = $("<div>").addClass("col-1").text(itemData.pack);
@@ -157,17 +157,19 @@ $("#reloadPageBtn").click(function() {
 // option to manually add an item to the form
 $("#manualItemAdd").click(function(event) {
     event.preventDefault();
-    let newItem = {};
-    newItem.id = $("#manualItemNum")[0].value;
-    $("#manualItemNum")[0].value = "";
-    newItem.pack = $("#manualItemPk")[0].value;
-    $("#manualItemPk")[0].value = "";
-    newItem.size = $("#manualItemSize")[0].value;
-    $("#manualItemSize")[0].value = "";
-    newItem.description = $("#manualItemDesc")[0].value;
-    $("#manualItemDesc")[0].value = "";
-    addItem(newItem);
+    if (!$("#manualItemNum")[0].value) {
+        $('#errorSpan').attr("class", "bg-danger").text("Must Fill Out Item Number.");
+    } else {
+        $('#errorSpan').attr("class", "").text("");
+        let newItem = {};
+        newItem.id = $("#manualItemNum")[0].value;
+        $("#manualItemNum")[0].value = "";
+        newItem.pack = $("#manualItemPk")[0].value;
+        $("#manualItemPk")[0].value = "";
+        newItem.size = $("#manualItemSize")[0].value;
+        $("#manualItemSize")[0].value = "";
+        newItem.description = $("#manualItemDesc")[0].value;
+        $("#manualItemDesc")[0].value = "";
+        addItem(newItem);
+    }
 });
-
-// button handler to generate word doc
-

@@ -43,3 +43,7 @@ textarea {
 #manualItemDesc {
     width: 200px;
 }
+
+.listedItem:hover {
+    background-color: lightslategray;
+}
