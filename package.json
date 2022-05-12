@@ -27,6 +27,7 @@
     "express-handlebars": "^6.0.5",
     "express-session": "^1.17.2",
     "file-saver": "^2.0.5",
+    "jspdf": "^2.5.1",
     "luxon": "^2.3.2",
     "mysql2": "^2.3.3",
     "sequelize": "^6.19.0"

@@ -173,3 +173,68 @@ $("#manualItemAdd").click(function(event) {
         addItem(newItem);
     }
 });
+
+// listener to generate word doc
+$("#genDocBtn").click(function() {
+    let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+         "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+         "xmlns='http://www.w3.org/TR/REC-html40'>"+
+         "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+    let footer = "</body></html>";
+
+    // capture needed data
+    let adDate = $("#adbegin")[0].value;
+    let versionIndex = $("#adversion")[0].selectedIndex;
+    let adVersion = $("#adversion")[0][versionIndex].text;
+    let changeStatus = "";
+        if (changeType === "cancellation") {
+            changeStatus = "Cancellation";
+        } else if (changeType === "costchange") {
+            changeStatus = "New Cost Amount";
+        } else if (changeType === "retailchange") {
+            changeStatus = "New Retail Amount";
+        } else if (changeType === "dealamountchange") {
+            changeStatus = "New Deal Amount";
+        } else if (changeType === "additionalitems") {
+            changeStatus = "Like Item";
+        }
+    let itemsArray = [];
+        for (let l = 0; l < itemListEl[0].children.length; l++) {
+            let item = {};
+            item.id = itemListEl[0].children[l].children[0].textContent;
+            item.pack = itemListEl[0].children[l].children[1].textContent;
+            item.size = itemListEl[0].children[l].children[2].textContent;
+            item.description = itemListEl[0].children[l].children[3].textContent;
+            item.value = itemListEl[0].children[l].children[4][0].value;
+            itemsArray.push(item);
+        }
+    console.log(itemsArray);
+
+    // loop through items and add to data
+    let itemHTMLLoop = (item) => {
+        return `
+            <div>${item.id} - ${item.pack} - ${item.size} - ${item.description} - ${item.value}</div>
+        `;
+    };
+
+
+    let capturedHTML = `
+        <h1>Ad Change Form</h1>
+        <div>Ad Date: ${adDate}</div>
+        <div>Ad Versiion: ${adVersion}</div>
+        <div>Change Type: ${changeStatus}</div>
+        <div>Item - PK - Size - Description - ${changeStatus}</div>
+        ${itemsArray.forEach(itemHTMLLoop)}
+    `;
+
+
+    let sourceHTML = header+capturedHTML+footer;
+    
+    let source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+    let fileDownload = document.createElement("a");
+    document.body.appendChild(fileDownload);
+    fileDownload.href = source;
+    fileDownload.download = 'document.doc';
+    fileDownload.click();
+    document.body.removeChild(fileDownload);
+});
