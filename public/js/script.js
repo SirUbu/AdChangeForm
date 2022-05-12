@@ -208,33 +208,47 @@ $("#genDocBtn").click(function() {
             item.value = itemListEl[0].children[l].children[4][0].value;
             itemsArray.push(item);
         }
-    console.log(itemsArray);
+
+    let comments = $("#comments")[0].value;
 
     // loop through items and add to data
-    let itemHTMLLoop = (item) => {
-        return `
-            <div>${item.id} - ${item.pack} - ${item.size} - ${item.description} - ${item.value}</div>
-        `;
+    let itemHTMLLoop = () => {
+        let parentElement = $("<div>");
+        itemsArray.forEach(function(item) {
+            let HTMLString = `<div>${item.id} - ${item.pack} - ${item.size} - ${item.description} - ${item.value}</div>`;
+            parentElement.append(HTMLString);
+        })
+        return parentElement[0].innerHTML;
     };
 
-
-    let capturedHTML = `
-        <h1>Ad Change Form</h1>
-        <div>Ad Date: ${adDate}</div>
-        <div>Ad Versiion: ${adVersion}</div>
-        <div>Change Type: ${changeStatus}</div>
-        <div>Item - PK - Size - Description - ${changeStatus}</div>
-        ${itemsArray.forEach(itemHTMLLoop)}
-    `;
-
-
-    let sourceHTML = header+capturedHTML+footer;
+    if (adDate && adVersion && changeStatus && itemsArray.length > 0) {
+        let capturedHTML = `
+            <h1>Ad Change Form</h1>
+            <div>Ad Date: ${adDate}</div>
+            <div>Ad Versiion: ${adVersion}</div>
+            <div>Change Type: ${changeStatus}</div>
+            <br>
+            <h3>Item - PK - Size - Description - ${changeStatus}</h3>
+            ${itemHTMLLoop()}
+            <br>
+            <h4>Comments:</h4>
+            <div>${comments}</div>
+        `;
     
-    let source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
-    let fileDownload = document.createElement("a");
-    document.body.appendChild(fileDownload);
-    fileDownload.href = source;
-    fileDownload.download = 'document.doc';
-    fileDownload.click();
-    document.body.removeChild(fileDownload);
+    
+        let sourceHTML = header+capturedHTML+footer;
+        
+        let source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+        let fileDownload = document.createElement("a");
+        document.body.appendChild(fileDownload);
+        fileDownload.href = source;
+        fileDownload.download = `${adDate}, ${adVersion}, ${changeStatus}.doc`;
+        fileDownload.click();
+        document.body.removeChild(fileDownload);
+
+        $("#genErrorSpan").attr("class", "bg-success").text("Document Generated");
+
+    } else {
+        $("#genErrorSpan").attr("class", "bg-danger").text("Ensure All Fields Are Filled In");
+    }
 });
