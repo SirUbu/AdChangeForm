@@ -194,18 +194,7 @@ $("#genDocBtn").click(function() {
     let adDate = $("#adbegin")[0].value;
     let versionIndex = $("#adversion")[0].selectedIndex;
     let adVersion = $("#adversion")[0][versionIndex].text;
-    let changeStatus = "";
-        if (changeType === "cancellation") {
-            changeStatus = "Cancellation";
-        } else if (changeType === "costchange") {
-            changeStatus = "New Cost Amount";
-        } else if (changeType === "retailchange") {
-            changeStatus = "New Retail Amount";
-        } else if (changeType === "dealamountchange") {
-            changeStatus = "New Deal Amount";
-        } else if (changeType === "additionalitems") {
-            changeStatus = "Like Item";
-        }
+    let changeStatus = changeType;
     let itemsArray = [];
         for (let l = 0; l < itemListEl[0].children.length; l++) {
             let item = {};
@@ -213,7 +202,14 @@ $("#genDocBtn").click(function() {
             item.pack = itemListEl[0].children[l].children[1].textContent;
             item.size = itemListEl[0].children[l].children[2].textContent;
             item.description = itemListEl[0].children[l].children[3].textContent;
-            item.value = itemListEl[0].children[l].children[4][0].value;
+            let valueArray =[];
+            for (let q = 4; q < itemListEl[0].children[l].children.length - 1; q++) {
+                itemValue = itemListEl[0].children[l].children[q][0].value
+                if (itemValue) {
+                    valueArray.push(itemValue);
+                }
+            }
+            item.value = valueArray;
             itemsArray.push(item);
         }
 
@@ -223,20 +219,39 @@ $("#genDocBtn").click(function() {
     let itemHTMLLoop = () => {
         let parentElement = $("<div>");
         itemsArray.forEach(function(item) {
-            let HTMLString = `<div>${item.id} - ${item.pack} - ${item.size} - ${item.description} - ${item.value}</div>`;
+            let HTMLString = `<div>${item.id} - ${item.pack} - ${item.size} - ${item.description} ${valueLoop(item.value)}</div>`;
             parentElement.append(HTMLString);
         })
         return parentElement[0].innerHTML;
     };
 
-    if (adDate && adVersion && changeStatus && itemsArray.length > 0) {
+    // loop throuch different values
+    let valueLoop = (value) => {
+        let HTMLString = "";
+        value.forEach(function(item) {
+            HTMLString = HTMLString + `- ${item} `;
+        });
+        return HTMLString;
+    };
+
+    // loop through different change types
+    let changeLoop = () => {
+        let HTMLString = "";
+        changeStatus.forEach(function(value) {
+            HTMLString = HTMLString + `- ${value} `;
+        });
+        return HTMLString;
+    };
+
+
+    if (adDate && adVersion && changeStatus.length > 0 && itemsArray.length > 0) {
         let capturedHTML = `
             <h1>Ad Change Form</h1>
             <div>Ad Date: ${adDate}</div>
             <div>Ad Versiion: ${adVersion}</div>
-            <div>Change Type: ${changeStatus}</div>
+            <div>Change Type: ${changeLoop()}</div>
             <br>
-            <h3>Item - PK - Size - Description - ${changeStatus}</h3>
+            <h3>Item - PK - Size - Description ${changeLoop()}</h3>
             ${itemHTMLLoop()}
             <br>
             <h4>Comments:</h4>
