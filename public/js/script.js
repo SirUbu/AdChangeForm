@@ -239,7 +239,10 @@ $("#genDocBtn").click(function() {
             item.value = valueArray;
             itemsArray.push(item);
         }
-
+    let descSpacer = "";
+        for (let s = 0; s < itemsArray[0].description.length - 11; s++) {
+            descSpacer = descSpacer + "-";
+        }
     let comments = $("#comments")[0].value;
 
     // loop through items and add to data
@@ -274,10 +277,10 @@ $("#genDocBtn").click(function() {
     if (adDate && changeStatus.length > 0 && itemsArray.length > 0) {
         let capturedHTML = `
             <h1>Ad Change Form</h1>
-            <div>Ad Date: ${adDate}</div>
-            <div>Change Type: ${changeLoop()}</div>
+            <h4>Ad Date: <span>${adDate}</span></h4>
+            <h4>Change Type: <span>${changeLoop()}</span></h4>
             <br>
-            <h3>Item - PK - Size - Description ${changeLoop()}</h3>
+            <h3>Item - PK - Size - Description${descSpacer} ${changeLoop()}</h3>
             ${itemHTMLLoop()}
             <br>
             <h4>Comments:</h4>
