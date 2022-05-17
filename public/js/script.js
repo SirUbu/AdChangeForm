@@ -221,8 +221,6 @@ $("#genDocBtn").click(function() {
         return format;      
     };
     let adDate = dateFormat($("#adbegin")[0].value, "MM-dd-yyyy");
-    let versionIndex = $("#adversion")[0].selectedIndex;
-    let adVersion = $("#adversion")[0][versionIndex].text;
     let changeStatus = changeType;
     let itemsArray = [];
         for (let l = 0; l < itemListEl[0].children.length; l++) {
@@ -273,11 +271,10 @@ $("#genDocBtn").click(function() {
     };
 
 
-    if (adDate && adVersion && changeStatus.length > 0 && itemsArray.length > 0) {
+    if (adDate && changeStatus.length > 0 && itemsArray.length > 0) {
         let capturedHTML = `
             <h1>Ad Change Form</h1>
             <div>Ad Date: ${adDate}</div>
-            <div>Ad Versiion: ${adVersion}</div>
             <div>Change Type: ${changeLoop()}</div>
             <br>
             <h3>Item - PK - Size - Description ${changeLoop()}</h3>
@@ -294,7 +291,7 @@ $("#genDocBtn").click(function() {
         let fileDownload = document.createElement("a");
         document.body.appendChild(fileDownload);
         fileDownload.href = source;
-        fileDownload.download = `${adDate}, ${adVersion}, ${changeStatus}.doc`;
+        fileDownload.download = `${adDate}, ${changeStatus}.doc`;
         fileDownload.click();
         document.body.removeChild(fileDownload);
 
