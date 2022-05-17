@@ -2,49 +2,52 @@
 let listHeaderEl = $("#listHeader");
 let itemListEl = $("#itemList");
 
-// holder variable for change type
-let changeType = "";
+// global variables
+let changeType = [];
+let searchValue = "";
 
 // listener and function to set change type varriable and load form header
 $('.changestatusoptions').click(function(event) {
-    // clear list
-    listHeaderEl.text("");
-    // set changetype based on new selection
-    changeType = "";
-    let selection = event.target.value;
-    if (selection) {
-        changeType = selection;
-    } else {
-        return
-    };
-    // add header to form
-    let rowEl = $("<div>").addClass("row border-bottom");
-    let itemEl = $("<div>").addClass("col-2").text("Item #");
-    rowEl.append(itemEl);
-    let pkEl = $("<div>").addClass("col-1").text("PK");
-    rowEl.append(pkEl);
-    let sizeEl = $("<div>").addClass("col-2").text("Size");
-    rowEl.append(sizeEl);
-    let descriptionEl = $("<div>").addClass("col-4").text("Description");
-    rowEl.append(descriptionEl);
-    let typeEl = $("<div>").addClass("col-3");
-    if (changeType === "cancellation") {
-        typeEl.text("Cancellation");
-    } else if (changeType === "costchange") {
-        typeEl.text("New Cost Amount");
-    } else if (changeType === "retailchange") {
-        typeEl.text("New Retail Amount");
-    } else if (changeType === "dealamountchange") {
-        typeEl.text("New Deal Amount");
-    } else if (changeType === "additionalitems") {
-        typeEl.text("Like Item");
+    // prevent douple when clicking label vs box
+    if (event.target.type === "checkbox"){
+        // clear list
+        listHeaderEl.text("");
+        
+        // create and add header to form
+        let rowEl = $("<div>").addClass("row border-bottom");
+        let itemEl = $("<div>").addClass("col-2").text("Item #");
+        rowEl.append(itemEl);
+        let pkEl = $("<div>").addClass("col-1").text("PK");
+        rowEl.append(pkEl);
+        let sizeEl = $("<div>").addClass("col-2").text("Size");
+        rowEl.append(sizeEl);
+        let descriptionEl = $("<div>").addClass("col-3").text("Description");
+        rowEl.append(descriptionEl);
+    
+        // reset the changeType array and add the new checked items to that array
+        changeType = [];
+        for (let t = 0; t < 5; t ++) {
+            if ($('.changestatusoptions')[0][t].checked) {
+                changeType.push($('.changestatusoptions')[0][t].value);
+                let typeEl = $("<div>").addClass("col-1");
+                typeEl.text($('.changestatusoptions')[0][t].value);
+                rowEl.append(typeEl)
+            } 
+        }
+    
+        listHeaderEl.append(rowEl);
+    
+        // if there is a search value, clear list and trigger fetch
+        if (searchValue) {
+            itemListEl.text("");
+            itemSearch(searchValue);
+        }
     }
-    rowEl.append(typeEl)
-    listHeaderEl.append(rowEl);
 });
 
 // function to add item to list
 const addItem = (itemData) => {
+    // create and add layout of item to form
     let listItemEl = $("<div>").addClass("row border-bottom listedItem").attr("id", itemData.id);
     let itemNumberEl = $("<div>").addClass("col-2").text(itemData.id);
     listItemEl.append(itemNumberEl);
@@ -52,17 +55,21 @@ const addItem = (itemData) => {
     listItemEl.append(itemPkEl);
     let itemSizeEl = $("<div>").addClass("col-2").text(itemData.size);
     listItemEl.append(itemSizeEl);
-    let itemDescriptionEl = $("<div>").addClass("col-4").text(itemData.description);
+    let itemDescriptionEl = $("<div>").addClass("col-3").text(itemData.description);
     listItemEl.append(itemDescriptionEl);
-    let itemFormEl = $("<form>").addClass("col-2");
-    let formLabelEl = $("<label>").attr("for", "input");
-    itemFormEl.append(formLabelEl);
-    let formInputEl = $("<input>").attr("type", "text").attr("id", "input").attr("name", "input");
-    itemFormEl.append(formInputEl);
-    listItemEl.append(itemFormEl);
+    // loop through for multiple change types to add a form for each type
+    for (let r = 0; r < changeType.length; r++) {
+        let itemFormEl = $("<form>").addClass("col-1");
+        let formLabelEl = $("<label>").attr("for", "input");
+        itemFormEl.append(formLabelEl);
+        let formInputEl = $("<input>").attr("type", "text").attr("id", "input").attr("name", "input");
+        itemFormEl.append(formInputEl);
+        listItemEl.append(itemFormEl);
+    }
     // button to removed single item from the form
     let removeBttnEl = $("<button>").attr("type", "button").attr("id", "removeItemBtn").addClass("col-1").text("❌");
     listItemEl.append(removeBttnEl);
+
     itemListEl.append(listItemEl)
 };
 
@@ -112,7 +119,8 @@ $("#getItemBtn").click(function(event) {
     $("#itemnotice").text("Searching...").attr("class", "bg-warning");
     let itemNumber = $("#itemNum");
 
-    itemSearch(itemNumber.val());
+    searchValue = itemNumber.val();
+    itemSearch(searchValue);
 
     itemNumber.val("");
 });
