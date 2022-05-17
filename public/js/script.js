@@ -81,6 +81,7 @@ async function itemSearch(itemNumber) {
                 $("#itemnotice").text("No Item Found").attr("class", "bg-danger");
                 return;
             }
+            searchValue = itemNumber;
             return response.json();
         })
         .then(itemData => {
@@ -119,8 +120,7 @@ $("#getItemBtn").click(function(event) {
     $("#itemnotice").text("Searching...").attr("class", "bg-warning");
     let itemNumber = $("#itemNum");
 
-    searchValue = itemNumber.val();
-    itemSearch(searchValue);
+    itemSearch(itemNumber.val());
 
     itemNumber.val("");
 });
@@ -128,6 +128,11 @@ $("#getItemBtn").click(function(event) {
 // clear button listener and function to clear out the form ONLY
 $("#clearItemList").click(function() {
     itemListEl.text("");
+    searchValue = "";
+    $("#itemnotice").text("").attr("class", "");
+    $('#errorSpan').attr("class", "").text("");
+    $("#genErrorSpan").attr("class", "").text("");
+    $("#comments")[0].value = "";
 });
 
 // button handler to remove single item from form
