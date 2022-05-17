@@ -196,7 +196,31 @@ $("#genDocBtn").click(function() {
     let footer = "</body></html>";
 
     // capture needed data
-    let adDate = $("#adbegin")[0].value;
+    const dateFormat = (inputDate, format) => {
+        //parse the input date
+        const date = new Date(inputDate);
+        
+        //extract the parts of the date
+        const day = date.getDate() + 1;
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();    
+        
+        //replace the month
+        format = format.replace("MM", month.toString().padStart(2,"0"));        
+        
+        //replace the year
+        if (format.indexOf("yyyy") > -1) {
+            format = format.replace("yyyy", year.toString());
+        } else if (format.indexOf("yy") > -1) {
+            format = format.replace("yy", year.toString().substr(2,2));
+        }
+        
+        //replace the day
+        format = format.replace("dd", day.toString().padStart(2,"0"));
+        
+        return format;      
+    };
+    let adDate = dateFormat($("#adbegin")[0].value, "MM-dd-yyyy");
     let versionIndex = $("#adversion")[0].selectedIndex;
     let adVersion = $("#adversion")[0][versionIndex].text;
     let changeStatus = changeType;
