@@ -60,9 +60,9 @@ const addItem = (itemData) => {
     // loop through for multiple change types to add a form for each type
     for (let r = 0; r < changeType.length; r++) {
         let itemFormEl = $("<form>").addClass("col-1");
-        let formLabelEl = $("<label>").attr("for", "input");
+        let formLabelEl = $("<label>").attr("for", "itemInput");
         itemFormEl.append(formLabelEl);
-        let formInputEl = $("<input>").attr("type", "text").attr("id", "input").attr("name", "input");
+        let formInputEl = $("<input>").attr("type", "text").attr("id", "itemInput").attr("name", "itemInput").attr("onKeydown", "itemValueInput()");
         itemFormEl.append(formInputEl);
         listItemEl.append(itemFormEl);
     }
@@ -124,6 +124,11 @@ $("#getItemBtn").click(function(event) {
 
     itemNumber.val("");
 });
+
+// prevent default on form entry on list items
+const itemValueInput = () => {
+    $('form').submit(function() { return false; });
+};
 
 // clear button listener and function to clear out the form ONLY
 $("#clearItemList").click(function() {

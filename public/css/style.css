@@ -19,7 +19,8 @@ textarea {
     width: 98%;
 }
 
-#input {
+#input,
+#itemInput {
     width: 100%;
 }
 
